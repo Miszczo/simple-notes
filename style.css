@@ -1,0 +1,13 @@
+.note-item {
+    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.7);
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.note-date {
+    font-size: 0.75rem;
+    color: #5b5c5e;
+}

@@ -25,19 +25,20 @@ class NotesList extends HTMLElement {
     }
 
     render() {
-        this.shadowRoot.innerHTML = `
-         <ul>
-            ${this._notes
-                .map(
-                    (note) => `
-                <li>
-                    <strong>${note.title}</strong>: ${note.description} (Date: ${note.date})
-                </li>
-            `
-                )
-                .join('')}
-        </ul>
-        `;
+        this.shadowRoot.innerHTML = `<ul></ul>`;
+        const ul = this.shadowRoot.querySelector('ul');
+
+        this._notes.forEach((note) => {
+            const li = document.createElement('li');
+            const noteItem = document.createElement('notes-item');
+
+            customElements.whenDefined('notes-item').then(() => {
+                noteItem.note = note;
+            });
+
+            li.appendChild(noteItem);
+            ul.appendChild(li);
+        });
     }
 }
 
