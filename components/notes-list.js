@@ -2,7 +2,7 @@ class NotesList extends HTMLElement {
     constructor() {
         super();
         this._notes = [];
-        this.attachShadow({ mode: 'open' });
+
     }
 
     connectedCallback() {
@@ -25,8 +25,8 @@ class NotesList extends HTMLElement {
     }
 
     render() {
-        this.shadowRoot.innerHTML = `<ul></ul>`;
-        const ul = this.shadowRoot.querySelector('ul');
+        this.innerHTML = `<ul class="notes-list"></ul>`;
+        const ul = this.querySelector('ul');
 
         this._notes.forEach((note) => {
             const li = document.createElement('li');

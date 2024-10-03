@@ -1,5 +1,19 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    cursor: pointer;
+}
+
 .note-item {
-    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 4px 16px -8px rgba(0, 0, 0, 0.7);
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.note-title {
+    margin: 0;
 }
 
 .note-header {
@@ -10,4 +24,14 @@
 .note-date {
     font-size: 0.75rem;
     color: #5b5c5e;
+}
+
+.note-item button {
+    background-color: transparent;
+    border: none;
+}
+
+.notes-list {
+    list-style: none;
+    padding: 0;
 }
