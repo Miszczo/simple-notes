@@ -7,12 +7,6 @@ class NotesList extends HTMLElement {
 
     connectedCallback() {
         this.render();
-
-        const event = new CustomEvent('notes-list-ready', {
-            bubbles: true,
-            composed: true,
-        });
-        this.dispatchEvent(event);
     }
 
     set notes(newNotes) {

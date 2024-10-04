@@ -3,17 +3,29 @@ class NotesApp extends HTMLElement {
         super();
         this.notes = [
             {
+                id: 1,
                 title: 'note 1',
                 description: 'lorem ipsum dolor sit amet',
                 date: 'May 22',
             },
+            {
+                id: 2,
+                title: 'note 2',
+                description: 'lorem it amet',
+                date: 'June 22',
+            },
         ];
         this.filteredNotes = [...this.notes];
+        this.currentEditedNote = null;
     }
 
     connectedCallback() {
         this.render();
         this.setupEventListeners();
+
+        customElements.whenDefined('notes-list').then(() => {
+            this.updateNotesList();
+        });
     }
 
     render() {
@@ -27,9 +39,9 @@ class NotesApp extends HTMLElement {
         `;
     }
 
-    handleEditNoteEvent(event) {
+    handleEditNoteEvent(e) {
         const notesForm = this.querySelector('notes-form');
-        const noteToEdit = event.detail;
+        const noteToEdit = e.detail;
         notesForm.setMode('edit', noteToEdit);
         notesForm.style.display = 'block';
     }
@@ -53,24 +65,36 @@ class NotesApp extends HTMLElement {
         }
     }
 
-    addNote() {
-        const newNote = {
-            title: `note ${this.notes.length + 1}`,
-            description: 'random text',
-            date: 'December 28',
-        };
+    onAddNote(newNote) {
         this.notes.push(newNote);
         this.filteredNotes = [...this.notes];
         this.updateNotesList();
     }
 
-    setupEventListeners() {
-        this.addEventListener('notes-list-ready', () => {
-            this.updateNotesList();
-        });
+    onEditNote(editedNote) {
+        const noteToEdit = this.filteredNotes.find(
+            (note) => note.id === editedNote.id
+        );
 
+        const editedNoteIndex = this.filteredNotes.indexOf(noteToEdit);
+        this.filteredNotes[editedNoteIndex] = editedNote;
+        this.updateNotesList();
+    }
+
+    onDeleteNote(noteId) {
+        this.filteredNotes = this.filteredNotes.filter(
+            (el) => el.id !== noteId
+        );
+        this.updateNotesList();
+    }
+
+    setupEventListeners() {
         this.addEventListener('save-note', (e) => {
-            console.log(e);
+            if (e.detail.mode === 'add') {
+                this.onAddNote(e.detail.note);
+            } else {
+                this.onEditNote(e.detail.note);
+            }
             notesForm.style.display = 'none';
         });
 
@@ -78,9 +102,13 @@ class NotesApp extends HTMLElement {
             this.handleEditNoteEvent(e);
         });
 
+        this.addEventListener('delete-note', (e) => {
+            this.onDeleteNote(e.detail);
+        });
+
         const input = this.querySelector('#searchInput');
-        input.addEventListener('input', (event) => {
-            this.handleFilter(event.target.value);
+        input.addEventListener('input', (e) => {
+            this.handleFilter(e.target.value);
         });
 
         const addNoteBtn = this.querySelector('#addBtn');

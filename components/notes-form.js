@@ -1,3 +1,4 @@
+import { formatDate } from "../utilities/formatters";
 class NotesForm extends HTMLElement {
     constructor() {
         super();
@@ -62,9 +63,10 @@ class NotesForm extends HTMLElement {
                         detail: {
                             mode: 'add',
                             note: {
+                                id: `${Date.now()}-${Math.floor(Math.random() * 1000)}`,
                                 title,
                                 description: description,
-                                date: new Date().toLocaleDateString(),
+                                date: formatDate(new Date()),
                             },
                         },
                         bubbles: true,
