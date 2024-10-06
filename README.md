@@ -35,8 +35,10 @@ NotesApp is a note-taking application that allows users to create, edit, and del
     cd simple-notes
 
 2. **Install dependencies**
+   ```bash
     npm install
     npm run dev
+   ```
 
     This will start a local development server, and you can access the application at:
     http://localhost:5173
