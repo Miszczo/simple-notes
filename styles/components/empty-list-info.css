@@ -1,0 +1,23 @@
+empty-list-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding-top: 35px;
+    max-width: 300px;
+    text-align: center;
+}
+
+empty-list-info .info-title {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+empty-list-info .info {
+    margin-bottom: 25px;
+}
+
+empty-list-info svg {
+    margin-bottom: 25px;
+}

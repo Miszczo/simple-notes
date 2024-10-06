@@ -1,13 +1,18 @@
-import { dispatchCustomEvent } from '../utilities/dispatchCustomEvent';
+import { dispatchCustomEvent } from "../utilities/dispatchCustomEvent";
 
-class EmptyListScreen extends HTMLElement {
+class EmptyListInfo extends HTMLElement {
     constructor() {
         super();
+        this.addFirstNoteBtn = null;
     }
 
     connectedCallback() {
         this.render();
         this.setupEventListeners();
+    }
+
+    disconnectedCallback() {
+        this.removeEventListeners();
     }
 
     render() {
@@ -17,18 +22,28 @@ class EmptyListScreen extends HTMLElement {
                 <path d="M31 57.1038C45.4167 57.1038 57.1037 45.4168 57.1037 31.0001C57.1037 16.5834 45.4167 4.89636 31 4.89636C16.5833 4.89636 4.89624 16.5834 4.89624 31.0001C4.89624 45.4168 16.5833 57.1038 31 57.1038Z" fill="#1B1C1E"/>
                 <path d="M30.6749 36.15H32.4749V30H30.6749V36.15ZM31.4999 28.35C31.7999 28.35 32.0457 28.2542 32.2374 28.0625C32.4291 27.8708 32.5249 27.6333 32.5249 27.35C32.5249 27.0333 32.4291 26.7792 32.2374 26.5875C32.0457 26.3958 31.7999 26.3 31.4999 26.3C31.1999 26.3 30.9541 26.3958 30.7624 26.5875C30.5707 26.7792 30.4749 27.0333 30.4749 27.35C30.4749 27.6333 30.5707 27.8708 30.7624 28.0625C30.9541 28.2542 31.1999 28.35 31.4999 28.35ZM31.4999 41.35C30.0332 41.35 28.6707 41.0875 27.4124 40.5625C26.1541 40.0375 25.0582 39.3083 24.1249 38.375C23.1916 37.4417 22.4624 36.3458 21.9374 35.0875C21.4124 33.8292 21.1499 32.4667 21.1499 31C21.1499 29.55 21.4124 28.1917 21.9374 26.925C22.4624 25.6583 23.1916 24.5625 24.1249 23.6375C25.0582 22.7125 26.1541 21.9792 27.4124 21.4375C28.6707 20.8958 30.0332 20.625 31.4999 20.625C32.9499 20.625 34.3082 20.8958 35.5749 21.4375C36.8416 21.9792 37.9374 22.7125 38.8624 23.6375C39.7874 24.5625 40.5207 25.6542 41.0624 26.9125C41.6041 28.1708 41.8749 29.5333 41.8749 31C41.8749 32.4667 41.6041 33.8292 41.0624 35.0875C40.5207 36.3458 39.7874 37.4417 38.8624 38.375C37.9374 39.3083 36.8416 40.0375 35.5749 40.5625C34.3082 41.0875 32.9499 41.35 31.4999 41.35ZM31.4999 39.375C33.7999 39.375 35.7707 38.5583 37.4124 36.925C39.0541 35.2917 39.8749 33.3167 39.8749 31C39.8749 28.7 39.0541 26.7292 37.4124 25.0875C35.7707 23.4458 33.7999 22.625 31.4999 22.625C29.1999 22.625 27.2291 23.4458 25.5874 25.0875C23.9457 26.7292 23.1249 28.7 23.1249 31C23.1249 33.3167 23.9457 35.2917 25.5874 36.925C27.2291 38.5583 29.1999 39.375 31.4999 39.375Z" fill="white"/>
             </svg>
-            <div class="title">Not notes yet</div>
-            <div>Add a note to keep track of your learnings.</div> 
+            <div class="info-title">No notes yet</div>
+            <div class="info">Add a note to keep track of your learnings.</div> 
             <button id="addFirstNoteBtn" class="btn btn-secondary">Add note</button>
         `;
     }
 
     setupEventListeners() {
-        const addBtn = this.querySelector('#addFirstNoteBtn');
-        addBtn.addEventListener('click', (e) => {
-            dispatchCustomEvent(e.target, 'add-first-note');
-        });
+        this.addFirstNoteBtn = this.querySelector('#addFirstNoteBtn');
+        if (this.addFirstNoteBtn) {
+            this.addFirstNoteBtn.addEventListener('click', this.onAddFirstNote);
+        }
+    }
+
+    removeEventListeners() {
+        if (this.addFirstNoteBtn) {
+            this.addFirstNoteBtn.removeEventListener('click', this.onAddFirstNote);
+        }
+    }
+
+    onAddFirstNote(e) {
+        dispatchCustomEvent(e.target, 'add-first-note');
     }
 }
 
-customElements.define('empty-list-screen', EmptyListScreen);
+customElements.define('empty-list-info', EmptyListInfo);

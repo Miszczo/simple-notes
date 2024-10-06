@@ -14,6 +14,10 @@ class NotesItem extends HTMLElement {
         });
     }
 
+    disconnectedCallback() {
+        this.removeEventListeners();
+    }
+
     render() {
         this.innerHTML = `
             <div class="note-item">
@@ -39,15 +43,31 @@ class NotesItem extends HTMLElement {
     }
 
     setupEventListeners() {
-        const deleteBtn = this.querySelector('.note-item .delete-note-btn');
-        const editBtn = this.querySelector('.note-item .edit-note-btn');
+        this.deleteBtn = this.querySelector('.note-item .delete-note-btn');
+        this.editBtn = this.querySelector('.note-item .edit-note-btn');
 
-        if (deleteBtn) {
-            deleteBtn.addEventListener('click', () => this.showDeleteModal());
+        if (this.deleteBtn) {
+            this.deleteBtn.addEventListener('click', () =>
+                this.showDeleteModal()
+            );
         }
 
-        if (editBtn) {
-            editBtn.addEventListener('click', () => this.showEditNote());
+        if (this.editBtn) {
+            this.editBtn.addEventListener('click', () => this.showEditNote());
+        }
+    }
+
+    removeEventListeners() {
+        if (this.deleteBtn) {
+            this.deleteBtn.removeEventListener('click', () =>
+                this.showDeleteModal()
+            );
+        }
+
+        if (this.editBtn) {
+            this.editBtn.removeEventListener('click', () =>
+                this.showEditNote()
+            );
         }
     }
 
@@ -58,7 +78,7 @@ class NotesItem extends HTMLElement {
     }
 
     showEditNote() {
-        const notesForm = document.createElement("notes-form");
+        const notesForm = document.createElement('notes-form');
         notesForm.openNotesForm('edit', this._note);
     }
 }

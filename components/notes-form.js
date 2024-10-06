@@ -50,25 +50,62 @@ class NotesForm extends HTMLElement {
         document.querySelector('.app-wrapper').appendChild(overlay);
     }
 
+    validateInputs() {
+        this.clearErrors();
+        const errors = [];
+
+        const title = this.querySelector('#noteTitle');
+        const description = this.querySelector('#noteBody');
+
+        if (!title.value.trim()) {
+            errors.push({
+                selector: '#noteTitle',
+                message: 'Title is required',
+            });
+        } else {
+            title.classList.remove('invalid-input');
+        }
+
+        if (!description.value.trim()) {
+            errors.push({
+                selector: '#noteBody',
+                message: 'Description is required',
+            });
+        } else {
+            description.classList.remove('invalid-input');
+        }
+
+        if (errors.length > 0) {
+            this.setErrors(errors);
+            return false;
+        }
+
+        return true;
+    }
+
+    setErrors(errors) {
+        errors.forEach((error) => {
+            const input = this.querySelector(error.selector);
+            const errorElement = document.createElement('div');
+            errorElement.classList.add('error-message');
+            errorElement.textContent = error.message;
+            input.after(errorElement);
+            input.classList.add('invalid-input');
+        });
+    }
+
+    clearErrors() {
+        const errors = this.querySelectorAll('.error-message');
+        errors.forEach((error) => error.remove());
+    }
+
     handleSaveNote() {
+        if (!this.validateInputs()) {
+            return;
+        }
+
         const title = this.querySelector('#noteTitle').value;
         const description = this.querySelector('#noteBody').value;
-
-        this.clearErrors();
-
-        let hasError = false;
-
-        if (!title.trim()) {
-            this.showError('#noteTitle', 'Title is required');
-            hasError = true;
-        }
-
-        if (!description.trim()) {
-            this.showError('#noteBody', 'Description is required');
-            hasError = true;
-        }
-
-        if (hasError) return;
 
         const noteDetail = {
             mode: this.isEditMode ? 'edit' : 'add',
@@ -84,20 +121,6 @@ class NotesForm extends HTMLElement {
 
         dispatchCustomEvent(this, 'save-note', noteDetail);
         this.closeNotesForm();
-    }
-
-    showError(selector, message) {
-        const input = this.querySelector(selector);
-        const errorElement = document.createElement('div');
-        errorElement.classList.add('error-message');
-        errorElement.textContent = message;
-        input.after(errorElement);
-        input.classList.add("invalid-input")
-    }
-
-    clearErrors() {
-        const errors = this.querySelectorAll('.error-message');
-        errors.forEach((error) => error.remove());
     }
 
     setupEventListeners() {

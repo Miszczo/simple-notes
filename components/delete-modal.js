@@ -41,17 +41,18 @@ class DeleteModal extends HTMLElement {
     }
 
     setupEventListeners() {
-        const deleteBtn = this.querySelector('#deleteNoteBtn');
-        const cancelBtn = this.querySelector('#closeModalBtn');
+        this.deleteBtn = this.querySelector('#deleteNoteBtn');
+        this.cancelBtn = this.querySelector('#closeModalBtn');
+        this.overlay = this.querySelector('.modal-overlay');
 
-        deleteBtn.addEventListener('click', (e) => {
+        this.deleteBtn.addEventListener('click', (e) => {
             dispatchCustomEvent(e.target, 'delete-note', this._noteId);
             this.closeModal();
         });
 
-        cancelBtn.addEventListener('click', () => this.closeModal());
+        this.cancelBtn.addEventListener('click', () => this.closeModal());
 
-        this.querySelector('.modal-overlay').addEventListener('click', (e) => {
+        this.overlay.addEventListener('click', (e) => {
             if (e.target.classList.contains('modal-overlay')) {
                 this.closeModal();
             }

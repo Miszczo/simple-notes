@@ -2,7 +2,7 @@
 @import url('./normalize');
 @import url('./components/buttons');
 @import url('./components/inputs');
-@import url('./components/empty-list-screen');
+@import url('./components/empty-list-info');
 @import url('./components/modal');
 @import url('./components/note-item');
 @import url('./components/notes-form');
