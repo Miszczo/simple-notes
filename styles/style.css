@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('./normalize');
+@import url('./components/buttons');
+@import url('./components/inputs');
+@import url('./components/empty-list-screen');
+@import url('./components/modal');
+@import url('./components/note-item');
+@import url('./components/notes-form');
+
+body {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(238, 238, 238);
+    line-height: 25px;
+}
+
+notes-app .app-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-width: 376px;
+    width: 100vw;
+    box-shadow: 4px 0px 8px 0px #0000001a;
+    border-radius: 12px;
+    height: 100vh;
+    max-height: 760px;
+    padding: 16px 4px;
+    background-color: white;
+    overflow: hidden;
+}
+
+.app-wrapper > div {
+    padding: 0 12px;
+}
+
+.main-title {
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 30px;
+}
+
+.scrollable-wrapper {
+    overflow-y: scroll;
+    padding-right: 6px;
+}
+
+.scrollable-wrapper .btn {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.notes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 10px;
+    position: absolute;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 12px;
+    border-radius: 12px;
+    background: #1b1c1e85;
+}
